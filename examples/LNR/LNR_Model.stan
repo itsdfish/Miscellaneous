@@ -24,13 +24,14 @@ data{
 
 parameters {
      vector[Nr] mu;
-     real<lower=0> sigma;
+     real<lower=0,upper=pi()/2> sigma;
 }
 
 model {
+     real s;
      mu ~ normal(0, 3);
-     sigma ~ cauchy(0,1);
+     s = tan(sigma);
      for(i in 1:N){
-         target += LNR_LL(mu, sigma, 0.0, rt[i], choice[i]);
+         target += LNR_LL(mu, s, 0.0, rt[i], choice[i]);
       }
 }
