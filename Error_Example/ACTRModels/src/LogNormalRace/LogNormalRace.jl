@@ -1,9 +1,3 @@
-import Base.rand
-import Distributions: logpdf
-
-ProjDir = @__DIR__
-cd(ProjDir)
-
 struct LNR{T1,T2,T3} <: ContinuousUnivariateDistribution
     μ::T1
     σ::T2
@@ -37,3 +31,18 @@ function logpdf(d::T, r::Int, t::Float64) where {T<:LNR}
 end
 
 logpdf(d::LNR, data::Tuple) = logpdf(d, data...)
+
+pdf(d::LNR, data::Tuple) = pdf(d, data...)
+
+function pdf(d::T, r::Int, t::Float64) where {T<:LNR}
+    @unpack μ,σ,ϕ = d
+    density = 1.0
+    for (i,m) in enumerate(μ)
+        if i == r
+            density *= pdf(LogNormal(m, σ), t-ϕ)
+        else
+            density *= (1-cdf(LogNormal(m, σ), t-ϕ))
+        end
+    end
+    return density
+end

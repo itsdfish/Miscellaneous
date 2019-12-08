@@ -18,8 +18,8 @@ end
 Random.seed!(3423)
 Nreps = 30
 error_count = fill(0.0, Nreps)
-Nr = 10
-Nobs = 10
+Nr = 20
+Nobs = 5
 
 for i in 1:Nreps
     x = rand(Normal(0, 1), Nr)

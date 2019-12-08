@@ -25,7 +25,7 @@ for i in 1:Nreps
     σ = rand(Uniform(.2, 1))
     dist = LNR(μ=μ, σ=σ, ϕ=0.0)
     data = rand(dist, Nobs)
-    chain = sample(model(data, Nr), NUTS(1000, .8), 2000, discard_adapt = false, progress = false)
+    chain = psample(model(data, Nr), NUTS(1000, .8), 2000, discard_adapt = false, progress = false)
     error_count[i] = sum(get(chain,:numerical_error)[1])
 end
 
